@@ -1,36 +1,35 @@
+import { useContext, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./Components/Header/Header";
-import Sidebar from "./Components/Sidebar/Sidebar";
-import HomePage from './pages/HomePage/HomePage';
-
-
-
-
-
-
-
-
+import { AuthContext } from "./components/contex/authContext";
+import Main from "./components/main/Main";
+import Likes from "./components/pages/Likes";
+import Login from "./components/pages/Login";
+import NotFaund from "./components/pages/NotFaund";
+// import UserPage from "./components/pages/UserPage";
+import SinglePage from "./components/singlePage/singlePage";
 
 function App() {
-
+  const { isLogin } = useContext(AuthContext);
+  console.log(isLogin);
+  // const [loginText, setLoginText] = useState("Kirish");
   return (
-	 <div className="container w-full mx-auto">
-
-<div className="App">
-      <Header/>
-
-
-
-      <main className="flex mx-auto"> 
-		<Sidebar/>
-		<HomePage/>
-
-
-        
-      </main>
-    </div>
-
-	 </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/single/:id" element={<SinglePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/likes" element={<Likes />} />
+          <Route path="*" element={<NotFaund />} />
+          {isLogin ? (
+            <Route path="/user" element={<Main />} />
+          ) : (
+            <Route path="/user" element={<Login />} />
+          )}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
